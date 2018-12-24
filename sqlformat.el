@@ -55,3 +55,6 @@
                  (current-buffer))
   (sql-mode)
   )
+
+(provide 'sqlformat)
+;;; sqformat.el ends here
