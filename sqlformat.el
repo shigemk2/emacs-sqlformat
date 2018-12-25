@@ -1,6 +1,6 @@
-;;; sqformat.el --- Emacs Lisp using sqlformat to format SQL in the current buffer.
+;;; sqlformat.el --- Emacs Lisp using sqlformat to format SQL in the current buffer.
 ;; Author: shigemk2
-;; URL: https://github.com/shigemk2/sqformat
+;; URL: https://github.com/shigemk2/sqlformat
 ;; Package-Requires: (request)
 ;; Keywords: docbase
 ;; Version: 0.1
@@ -57,4 +57,4 @@
   )
 
 (provide 'sqlformat)
-;;; sqformat.el ends here
+;;; sqlformat.el ends here
