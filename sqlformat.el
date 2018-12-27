@@ -2,7 +2,7 @@
 ;; Author: shigemk2
 ;; URL: https://github.com/shigemk2/sqlformat
 ;; Package-Requires: (request)
-;; Keywords: docbase
+;; Keywords: sqlformat
 ;; Version: 0.1
 ;; MIT License
 ;;
@@ -38,6 +38,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar sqlformat-command "sqlformat")
 (defvar sqlformat-reindent "--reindent")
+(defvar sqlformat-keywords "upper")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Command
@@ -46,13 +47,28 @@
 (defun sqlformat-buffer ()
   "Uses the \"sqlformat\" tool to reformat the current buffer."
   (interactive)
+  (if (>= (string-to-number (shell-command-to-string "python -c \"import sys; sys.stdout.write(str(sys.version_info.major));\"")) 3)
+      (setq sqlformat (concat sqlformat-command
+                              " "
+                              sqlformat-reindent
+                              " --keywords "
+                              sqlformat-keywords
+                              " "
+                              buffer-file-name))
+    ;; for python 2
+    (setq sqlformat (concat "export PYTHONIOENCODING=utf-8;"
+                            sqlformat-command
+                            " "
+                            sqlformat-reindent
+                            " --keywords "
+                            sqlformat-keywords
+                            " "
+                            buffer-file-name)))
   (erase-buffer)
-  (shell-command (concat sqlformat-command
-                         " "
-                         sqlformat-reindent
-                         " --keywords upper "
-                         buffer-file-name)
-                 (current-buffer))
+  (message sqlformat)
+  (call-process-shell-command
+   sqlformat
+   nil t)
   (sql-mode)
   )
 
